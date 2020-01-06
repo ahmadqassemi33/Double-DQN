@@ -54,6 +54,7 @@ class DoubleDeepQNetwork(nn.Module):
   def load_checkpoint(self):
     print('...checkpoint loading')
     self.load_state_dict(T.load(self.checkpoint_file))
+    
 def plot_learning_curve(x, scores, eps_history, filename):
   fig = plt.figure()
   ax = fig.add_subplot(111, label='1')
@@ -270,8 +271,7 @@ class DDQNAgent():
     q_eval = self.q_eval.forward(states_)
 
     max_actions = T.argmax(q_eval, dim=1)
-    #q_next = self.q_next.forward(states_).max(dim=1)[0]
-
+    
     q_next[dones] = 0.0
     q_target = rewards + self.gamma*q_next[indices, max_actions]
 
